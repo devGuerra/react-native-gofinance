@@ -9,6 +9,7 @@ import {
 
 import { FlatList } from "react-native";
 import { DataListProps } from ".";
+import { BorderlessButton } from "react-native-gesture-handler";
 
 export const Container = styled.View`
   flex: 1;
@@ -24,9 +25,7 @@ export const Header = styled.View`
 export const UserWrapper = styled.View`
   width: 100%;
   padding: 0 ${RFValue(24)}px;
-  margin-top: ${isIphoneX()
-    ? getStatusBarHeight() + RFValue(28)
-    : RFValue(28)}px;
+  margin-top: ${getStatusBarHeight() + RFValue(28)}px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -58,6 +57,8 @@ export const UserName = styled.Text`
   color: ${({ theme }) => theme.colors.shape};
   font-family: ${({ theme }) => theme.fonts.bold};
 `;
+
+export const LogoutButton = styled(BorderlessButton)``;
 
 export const Icon = styled(Feather)`
   color: ${({ theme }) => theme.colors.secondary};

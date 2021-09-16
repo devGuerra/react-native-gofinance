@@ -2,17 +2,17 @@ import styled from "styled-components/native";
 
 import { Feather } from "@expo/vector-icons";
 import { RFValue } from "react-native-responsive-fontsize";
-import { TouchableOpacity } from "react-native";
+import { RectButton } from "react-native-gesture-handler";
 
-export const Container = styled(TouchableOpacity).attrs({
+export const Container = styled(RectButton).attrs({
   TouchableOpacity: 0.7,
 })`
   background-color: ${({ theme }) => theme.colors.shape};
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-radius: 5px;
 
+  border-radius: 5px;
   padding: 18px 16px;
 `;
 
