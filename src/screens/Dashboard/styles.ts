@@ -4,6 +4,7 @@ import { Feather } from "@expo/vector-icons";
 import {
   getBottomSpace,
   getStatusBarHeight,
+  isIphoneX,
 } from "react-native-iphone-x-helper";
 
 import { FlatList } from "react-native";
@@ -23,7 +24,9 @@ export const Header = styled.View`
 export const UserWrapper = styled.View`
   width: 100%;
   padding: 0 ${RFValue(24)}px;
-  margin-top: ${getStatusBarHeight() + RFValue(28)};
+  margin-top: ${isIphoneX()
+    ? getStatusBarHeight() + RFValue(28)
+    : RFValue(28)}px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
