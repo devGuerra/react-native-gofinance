@@ -24,7 +24,10 @@ import {
   Title,
   TransactionList,
   LogoutButton,
+  LoadContainer,
 } from "./styles";
+import { ActivityIndicator } from "react-native";
+import { useTheme } from "styled-components";
 
 export interface DataListProps extends TransactionCardProps {
   id: string;
@@ -32,6 +35,7 @@ export interface DataListProps extends TransactionCardProps {
 
 interface HighlightProps {
   amount: string;
+  lastTransaction: string;
 }
 
 interface HighlightData {
@@ -42,19 +46,35 @@ interface HighlightData {
 
 export function Dashboard() {
   const [transactions, setTransactions] = useState<DataListProps[]>([]);
-  const [highlitghtData, setHighlitghtData] = useState<HighlightData>({
-    entries: {
-      amount: "R$ 00,00",
-    },
-    expensive: {
-      amount: "R$ 00,00",
-    },
-    total: "R$ 00,00",
-  });
+  const [highlitghtData, setHighlitghtData] = useState<HighlightData>(
+    {} as HighlightData
+  );
+  const [isLoading, setLoading] = useState(true);
+  const theme = useTheme();
+
+  function getLastTransactionDate(
+    collection: DataListProps[],
+    type: "up" | "down"
+  ) {
+    const lastTransaction = new Date(
+      Math.max.apply(
+        Math,
+        collection
+          .filter((transaction) => transaction.type === type)
+          .map((transaction) => new Date(transaction.date).getTime())
+      )
+    );
+
+    return `${lastTransaction.getDate()} de ${lastTransaction.toLocaleString(
+      "pt-BR",
+      {
+        month: "long",
+      }
+    )}`;
+  }
 
   async function loadTransactions() {
     const dataKey = "@gofinances:transactions";
-    // await AsyncStorage.removeItem(dataKey);
     const response = await AsyncStorage.getItem(dataKey);
     const transactions = response ? JSON.parse(response) : [];
 
@@ -91,6 +111,14 @@ export function Dashboard() {
       }
     );
 
+    const lastTransactionEntries = getLastTransactionDate(transactions, "up");
+    const lastTransactionExpenses = getLastTransactionDate(
+      transactions,
+      "down"
+    );
+
+    const totalInterval = `01 a ${lastTransactionExpenses}`;
+
     const total = entriesTotal - expensiveTotal;
 
     setHighlitghtData({
@@ -99,22 +127,26 @@ export function Dashboard() {
           style: "currency",
           currency: "BRL",
         }),
+        lastTransaction: `Última entrada dia ${lastTransactionEntries}`,
       },
       expensive: {
         amount: expensiveTotal.toLocaleString("pt-BR", {
           style: "currency",
           currency: "BRL",
         }),
+        lastTransaction: `Última entrada dia  ${lastTransactionExpenses}`,
       },
       total: {
         amount: total.toLocaleString("pt-BR", {
           style: "currency",
           currency: "BRL",
         }),
+        lastTransaction: `${totalInterval}`,
       },
     });
 
     setTransactions(transactionsFormatted);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -126,6 +158,14 @@ export function Dashboard() {
       loadTransactions();
     }, [])
   );
+
+  if (isLoading) {
+    return (
+      <LoadContainer>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </LoadContainer>
+    );
+  }
 
   return (
     <Container>
@@ -151,19 +191,19 @@ export function Dashboard() {
         <HighlightCard
           title="Entradas"
           amount={highlitghtData.entries.amount}
-          lastTransaction="Última entrada dia 13 de setembro"
+          lastTransaction={highlitghtData.entries.lastTransaction}
           type="up"
         />
         <HighlightCard
           title="Saídas"
           amount={highlitghtData.expensive.amount}
-          lastTransaction="Última entrada dia 13 de setembro"
+          lastTransaction={highlitghtData.expensive.lastTransaction}
           type="down"
         />
         <HighlightCard
           title="Total"
           amount={highlitghtData.total.amount}
-          lastTransaction="Última entrada dia 13 de setembro"
+          lastTransaction={highlitghtData.total.lastTransaction}
           type="total"
         />
       </HighlightCards>

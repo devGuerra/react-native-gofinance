@@ -4,7 +4,6 @@ import { Feather } from "@expo/vector-icons";
 import {
   getBottomSpace,
   getStatusBarHeight,
-  isIphoneX,
 } from "react-native-iphone-x-helper";
 
 import { FlatList } from "react-native";
@@ -96,3 +95,9 @@ export const TransactionList = styled(
     paddingBottom: getBottomSpace(),
   },
 })``;
+
+export const LoadContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
