@@ -7,7 +7,12 @@ import { Register } from "../screens/Register";
 import { Dashboard } from "../screens/Dashboard";
 import { Platform } from "react-native";
 
-const { Navigator, Screen } = createBottomTabNavigator();
+export type AppRoutesParamList = {
+  Listagem: undefined;
+  Cadastrar: undefined;
+  Resumo: undefined;
+};
+const { Navigator, Screen } = createBottomTabNavigator<AppRoutesParamList>();
 
 export function AppRoutes() {
   const theme = useTheme();
