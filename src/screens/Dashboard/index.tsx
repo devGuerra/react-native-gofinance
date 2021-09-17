@@ -182,7 +182,9 @@ export function Dashboard() {
               <UserName>Roberto</UserName>
             </User>
           </UserInfo>
-          <LogoutButton onPress={() => {}}>
+          <LogoutButton
+            onPress={() => AsyncStorage.removeItem("@gofinances:transactions")}
+          >
             <Icon name="power" />
           </LogoutButton>
         </UserWrapper>
