@@ -119,7 +119,7 @@ export function Dashboard() {
 
     const totalInterval = `01 a ${lastTransactionExpenses}`;
 
-    const total = entriesTotal - expensiveTotal;
+    const total = entriesTotal + expensiveTotal;
 
     setHighlitghtData({
       entries: {

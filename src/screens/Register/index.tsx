@@ -75,7 +75,6 @@ export function Register() {
     if (category.key === "category") {
       return Alert.alert("Selecione a categoria");
     }
-    const dataKey = "@gofinances:transactions";
 
     const newTransaction = {
       id: String(uuid.v4()),
@@ -87,8 +86,8 @@ export function Register() {
     };
 
     try {
+      const dataKey = "@gofinances:transactions";
       const data = await AsyncStorage.getItem(dataKey);
-
       const currentData = data ? JSON.parse(data) : [];
 
       const dataFormated = [...currentData, newTransaction];

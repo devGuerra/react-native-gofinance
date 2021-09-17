@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Register } from "../screens/Register";
 import { Dashboard } from "../screens/Dashboard";
 import { Platform } from "react-native";
+import { Resume } from "../screens/Resume";
 
 export type AppRoutesParamList = {
   Listagem: undefined;
@@ -53,7 +54,7 @@ export function AppRoutes() {
       />
       <Screen
         name="Resumo"
-        component={Register}
+        component={Resume}
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialIcons name="pie-chart" size={size} color={color} />
