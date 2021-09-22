@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ActivityIndicator } from "react-native";
 import { useFocusEffect } from "@react-navigation/core";
 import { VictoryPie } from "victory-native";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -23,7 +24,7 @@ import {
   LoadContainer,
 } from "./styles";
 import { categories } from "../../utils/categories";
-import { ActivityIndicator } from "react-native";
+import { useAuth } from "../../hooks/auth";
 
 export interface TransactionData {
   type: "up" | "down";
@@ -48,6 +49,7 @@ export function Resume() {
   const [totalByCategories, setTotalByCategories] = useState<CategoryData[]>(
     []
   );
+  const { user } = useAuth();
   const theme = useTheme();
   const bottomTabBarHeight = useBottomTabBarHeight();
 
@@ -61,7 +63,7 @@ export function Resume() {
 
   async function loadData() {
     setIsLoading(true);
-    const dataKey = "@gofinances:transactions";
+    const dataKey = `@gofinances:transactions_user:${user.id}`;
     const response = await AsyncStorage.getItem(dataKey);
     const responseFormated: TransactionData[] = response
       ? JSON.parse(response)
