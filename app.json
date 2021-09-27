@@ -5,9 +5,18 @@
     "name": "gofinance",
     "slug": "gofinance",
     "scheme": "gofinance",
+    "icon": "./assets/logo.png",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "ios": {
+      "bundleIdentifier": "com.mobird.finances",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.mobird.finances",
+      "versionCode": 1
+    }
   }
 }
